@@ -3,5 +3,5 @@ main = "src/worker-vless.js"
 compatibility_date = "2024-04-15"
 
 [vars]
-# تم وضع UUID حقيقي بتنسيق صحيح لضمان قبول السكريبت للاتصال
 UUID = "449e7b2a-830d-4829-b365-62686e1536cc"
+PROXYIP = "cdn.cloudflare.com"

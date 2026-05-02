@@ -1,6 +1,6 @@
 name = "edgetunnel4"
 main = "src/worker-vless.js"
-compatibility_date = "2024-04-15"
+compatibility_date = "2026-05-2"
 
 [vars]
 UUID = "449e7b2a-830d-4829-b365-62686e1536cc"

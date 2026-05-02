@@ -16,7 +16,7 @@ if (!isValidUUID(userID)) {
 export default {
 	/**
 	 * @param {import("@cloudflare/workers-types").Request} request
-	 * @param {{UUID: string, PROXYIP: string}} env
+	 * @param {{UUID: string, PROXYIP: string, SOCKS5: string}} env
 	 * @param {import("@cloudflare/workers-types").ExecutionContext} ctx
 	 * @returns {Promise<Response>}
 	 */

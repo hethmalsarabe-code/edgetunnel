@@ -31,8 +31,29 @@ export default {
 					case '/':
 						return new Response(JSON.stringify(request.cf), { status: 200 });
 					case `/${userID}`: {
-						const vlessConfig = getVLESSConfig(userID, request.headers.get('Host'));
+						const hostname = request.headers.get('Host') || url.hostname;
+						const vlessConfig = getVLESSConfig(userID, hostname);
 						return new Response(`${vlessConfig}`, {
+							status: 200,
+							headers: {
+								"Content-Type": "text/plain;charset=utf-8",
+							}
+						});
+					}
+					case `/sub/${userID}`: {
+						const hostname = request.headers.get('Host') || url.hostname;
+						const format = url.searchParams.get('format');
+						if (format === 'clash') {
+							const clashConfig = getClashConfig(userID, hostname);
+							return new Response(clashConfig, {
+								status: 200,
+								headers: {
+									"Content-Type": "text/plain;charset=utf-8",
+								}
+							});
+						}
+						const vlessConfig = getVLESSConfig(userID, hostname);
+						return new Response(vlessConfig, {
 							status: 200,
 							headers: {
 								"Content-Type": "text/plain;charset=utf-8",
@@ -47,7 +68,7 @@ export default {
 			}
 		} catch (err) {
 			/** @type {Error} */ let e = err;
-			return new Response(e.toString());
+			return new Response(e.toString(), { status: 500 });
 		}
 	},
 };
@@ -632,4 +653,28 @@ clash-meta
 ---------------------------------------------------------------
 ################################################################
 `;
+}
+
+/**
+ * 
+ * @param {string} userID 
+ * @param {string} hostName 
+ * @returns {string}
+ */
+function getClashConfig(userID, hostName) {
+	return `proxies:
+  - name: "${hostName}"
+    type: vless
+    server: ${hostName}
+    port: 443
+    uuid: ${userID}
+    network: ws
+    tls: true
+    udp: false
+    sni: ${hostName}
+    client-fingerprint: chrome
+    ws-opts:
+      path: "/?ed=2048"
+      headers:
+        host: ${hostName}`;
 }

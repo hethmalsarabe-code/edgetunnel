@@ -1,4 +1,4 @@
-name = "edgetunnel6"
+name = "edgetunnel7"
 main = "src/worker-vless.js"
 compatibility_date = "2024-04-15"
 
